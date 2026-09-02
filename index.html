@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tehnotitan SRL — catalog de produse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#132B5E;
+    --navy-deep:#0C1D42;
+    --yellow:#F7A81B;
+    --yellow-deep:#E8940A;
+    --red:#D6291F;
+    --ink:#171717;
+    --paper:#FFFFFF;
+    --paper-soft:#F3F4F7;
+    --line:#E1E4EA;
+    --text-mute:#5B6472;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+  }
+  h1,h2,h3,.display{font-family:'Archivo Black',sans-serif;font-weight:400;letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  /* image placeholder helper — swap the <img> src for a real photo */
+  .imgslot{
+    width:100%;height:100%;object-fit:cover;
+    background:var(--paper-soft);
+  }
+  .imgslot-empty{
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--paper-soft);
+    color:var(--text-mute);font-size:11px;text-align:center;
+    font-family:'IBM Plex Mono',monospace;padding:8px;
+  }
+
+  /* ---------- HEADER ---------- */
+  header{background:var(--navy);border-bottom:4px solid var(--yellow);position:sticky;top:0;z-index:50;}
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 32px;max-width:1180px;margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:10px;color:#fff;}
+  .logo-mark{width:34px;height:34px;flex:none;}
+  .logo-text{font-family:'Archivo Black',sans-serif;font-size:19px;line-height:1.1;}
+  .logo-text small{display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:10.5px;color:var(--yellow);letter-spacing:0.03em;margin-top:2px;}
+  nav.links{display:flex;gap:32px;}
+  nav.links a{color:#D8E0F0;font-size:14.5px;font-weight:500;}
+  nav.links a:hover{color:#fff;}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .phone-pill{
+    display:flex;align-items:center;gap:8px;
+    background:var(--yellow);color:var(--navy-deep);
+    padding:9px 16px;border-radius:4px;font-weight:700;font-size:14.5px;
+  }
+  .phone-pill svg{width:16px;height:16px;}
+  .menu-toggle{display:none;background:none;border:none;color:#fff;}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;background:var(--navy);overflow:hidden;}
+  .hero-split{
+    position:absolute;inset:0;
+    background:linear-gradient(115deg, var(--yellow) 0%, var(--yellow) 38%, var(--navy) 38.5%, var(--navy) 100%);
+  }
+  .hero-inner{
+    position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:64px 32px 80px;
+    display:grid;grid-template-columns:1fr 1.15fr;gap:32px;align-items:center;
+  }
+  .hero-copy .eyebrow{
+    display:inline-block;background:var(--navy-deep);color:#fff;
+    font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:2px;margin-bottom:16px;
+  }
+  .hero-copy h1{
+    font-size:clamp(30px,4.6vw,46px);line-height:1.06;color:var(--navy-deep);
+    max-width:9.5ch;
+  }
+  .hero-copy .redbar{
+    display:inline-block;background:var(--red);color:#fff;
+    font-weight:700;font-size:15px;padding:9px 16px;margin-top:20px;border-radius:2px;
+  }
+  .checklist{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:11px;}
+  .checklist li{display:flex;gap:10px;align-items:flex-start;font-weight:700;font-size:15px;color:var(--navy-deep);}
+  .checklist svg{width:20px;height:20px;flex:none;color:var(--navy-deep);margin-top:1px;}
+  .hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;font-weight:700;font-size:14.5px;border-radius:4px;border:2px solid transparent;}
+  .btn-navy{background:var(--navy-deep);color:#fff;}
+  .btn-navy:hover{background:var(--navy);}
+  .btn-outline-dark{border-color:var(--navy-deep);color:var(--navy-deep);}
+  .btn-outline-dark:hover{background:var(--navy-deep);color:#fff;}
+
+  .hero-hex-cluster{position:relative;height:420px;}
+  .hex{
+    position:absolute;width:230px;height:200px;
+    clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border:4px solid #fff;overflow:hidden;background:var(--paper-soft);
+  }
+  .hex-1{top:0;left:10%;width:260px;height:230px;z-index:2;}
+  .hex-2{bottom:0;right:6%;width:220px;height:195px;z-index:1;}
+
+  /* ---------- CATEGORY HEXAGONS ---------- */
+  .cats{padding:76px 0 64px;background:var(--paper);}
+  .sec-head{text-align:center;max-width:560px;margin:0 auto 46px;}
+  .sec-head .tag{color:var(--red);font-weight:700;font-size:13px;margin-bottom:10px;letter-spacing:0.02em;}
+  .sec-head h2{font-size:clamp(22px,3vw,30px);color:var(--navy-deep);}
+  .sec-head p{color:var(--text-mute);font-size:15px;margin-top:10px;}
+
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 24px;}
+  .cat-item{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .cat-hex{
+    width:130px;height:114px;
+    clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background:var(--navy);display:flex;align-items:center;justify-content:center;
+    margin-bottom:16px;
+  }
+  .cat-hex svg{width:52px;height:52px;color:var(--yellow);}
+  .cat-item h3{font-size:15.5px;font-weight:700;color:var(--navy-deep);margin-bottom:6px;}
+  .cat-item p{font-size:13.5px;color:var(--text-mute);max-width:24ch;}
+
+  /* ---------- PRICE CATALOG ---------- */
+  .catalog{background:var(--navy-deep);padding:76px 0;}
+  .catalog .sec-head h2,.catalog .sec-head p{color:#fff;}
+  .catalog .sec-head p{color:#B7C2DA;}
+  .catalog .sec-head .tag{color:var(--yellow);}
+
+  .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .prod-card{background:#fff;border-radius:6px;overflow:hidden;}
+  .prod-photo{height:150px;}
+  .prod-body{padding:18px 18px 20px;}
+  .prod-body h3{font-size:15px;font-weight:700;color:var(--navy-deep);margin-bottom:4px;}
+  .prod-body .meta{font-size:12.5px;color:var(--text-mute);margin-bottom:12px;}
+  .price-badge{
+    display:inline-block;background:var(--yellow);color:var(--navy-deep);
+    font-weight:700;font-size:13.5px;padding:6px 12px;border-radius:3px;margin-bottom:14px;
+  }
+  table.spec{width:100%;border-collapse:collapse;font-size:12px;}
+  table.spec th{
+    background:var(--navy-deep);color:#fff;font-weight:600;padding:6px 4px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+  }
+  table.spec td{
+    padding:6px 4px;text-align:center;border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;color:var(--navy-deep);
+  }
+  table.spec tr:nth-child(even) td{background:var(--paper-soft);}
+
+  /* ---------- CONTACT BANNER ---------- */
+  .contact-banner{background:var(--ink);border-top:6px solid var(--yellow);padding:34px 0;}
+  .cb-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+  .cb-phone{display:flex;align-items:center;gap:14px;}
+  .cb-phone .icn{
+    width:52px;height:52px;border-radius:50%;background:var(--yellow);
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .cb-phone .icn svg{width:24px;height:24px;color:var(--navy-deep);}
+  .cb-phone .num{font-family:'Archivo Black',sans-serif;font-size:24px;color:#fff;}
+  .cb-phone .lbl{font-size:12px;color:#9CA3AF;}
+  .cb-details{display:flex;gap:34px;flex-wrap:wrap;}
+  .cb-detail{display:flex;gap:10px;align-items:flex-start;}
+  .cb-detail svg{width:18px;height:18px;color:var(--yellow);flex:none;margin-top:2px;}
+  .cb-detail .lbl{font-size:11.5px;color:#9CA3AF;margin-bottom:2px;}
+  .cb-detail .val{font-size:14px;color:#fff;font-weight:500;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy-deep);padding:22px 0;}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .foot-inner .copyright{font-size:12.5px;color:#8697BA;font-family:'IBM Plex Mono',monospace;}
+  .foot-links{display:flex;gap:22px;}
+  .foot-links a{font-size:13px;color:#B7C2DA;}
+  .foot-links a:hover{color:#fff;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    nav.links{display:none;}
+    .menu-toggle{display:block;}
+    .hero-inner{grid-template-columns:1fr;}
+    .hero-hex-cluster{height:300px;order:-1;}
+    .hex-1{left:2%;width:220px;height:195px;}
+    .hex-2{right:0;width:190px;height:170px;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .prod-grid{grid-template-columns:repeat(2,1fr);}
+    .cb-inner{flex-direction:column;align-items:flex-start;}
+  }
+  @media (max-width:560px){
+    .wrap,.nav,.hero-inner{padding-left:20px;padding-right:20px;}
+    .cat-grid{grid-template-columns:1fr;}
+    .prod-grid{grid-template-columns:1fr;}
+    .hero-split{background:linear-gradient(160deg, var(--yellow) 0%, var(--yellow) 34%, var(--navy) 34.5%, var(--navy) 100%);}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="14" stroke="#F7A81B" stroke-width="2"/>
+        <path d="M10 17h4M20 17h4M17 10v4M17 20v4" stroke="#F7A81B" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="17" cy="17" r="3.6" stroke="#fff" stroke-width="1.6"/>
+      </svg>
+      <div class="logo-text">TEHNOTITAN<small>ARMĂTURĂ PENTRU CONDUCTE</small></div>
+    </a>
+    <nav class="links">
+      <a href="#categorii">Produse</a>
+      <a href="#catalog">Prețuri</a>
+      <a href="#contact">Contacte</a>
+    </nav>
+    <div class="nav-right">
+      <a href="tel:+37367151080" class="phone-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5c0 8 7 15 15 15l2-4-6-2-2 2c-2-1-4-3-5-5l2-2-2-6z"/></svg>
+        +373 067 15 10 80
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-split"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">TEHNOTITAN SRL</span>
+      <h1>Catalog de produse</h1>
+      <span class="redbar">Lider în domeniul robinetelor pentru conducte</span>
+      <ul class="checklist">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          Robinete cu sertar
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          Robinete de închidere
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+          Flanșe și multe alte produse de calitate
+        </li>
+      </ul>
+      <div class="hero-actions">
+        <a href="#catalog" class="btn btn-navy">Vezi prețurile</a>
+        <a href="tel:+37367151080" class="btn btn-outline-dark">Sună acum</a>
+      </div>
+    </div>
+    <div class="hero-hex-cluster">
+      <div class="hex hex-1">
+        <!-- Photo slot: gate valve / robinet cu sertar. Replace src below with a real photo. -->
+        <img class="imgslot" src="images/robinet-sertar.jpg" alt="Robinet cu sertar"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-sertar.jpg'}))">
+      </div>
+      <div class="hex hex-2">
+        <!-- Photo slot: Y-strainer / filtru. Replace src below with a real photo. -->
+        <img class="imgslot" src="images/filtru-y.jpg" alt="Filtru Y"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/filtru-y.jpg'}))">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cats" id="categorii">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="tag">CE OFERIM</div>
+      <h2>Categorii de produse</h2>
+      <p>Echipăm rețele de apă și gaz cu armătură verificată, din stoc sau la comandă.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="10" y="13" width="12" height="6"/><circle cx="16" cy="7" r="4"/><line x1="16" y1="11" x2="16" y2="13"/></svg></div>
+        <h3>Vane și robinete</h3>
+        <p>Cu sertar, cu bilă și cu fluture</p>
+      </div>
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="16" cy="16" r="9"/><circle cx="16" cy="16" r="2"/><circle cx="16" cy="8" r="1.3" fill="currentColor" stroke="none"/><circle cx="24" cy="16" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="24" r="1.3" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.3" fill="currentColor" stroke="none"/></svg></div>
+        <h3>Fitinguri și flanșe</h3>
+        <p>Coturi, teuri și reducții</p>
+      </div>
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="16" cy="16" r="9"/><path d="M12 16l3 3 6-6"/></svg></div>
+        <h3>Supape și clapete</h3>
+        <p>Antiretur cu disc și cu clapetă</p>
+      </div>
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="14" width="14" height="6" rx="1"/><rect x="13" y="7" width="6" height="7"/></svg></div>
+        <h3>Electrovane</h3>
+        <p>Acționate electric, cu automatizare</p>
+      </div>
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="16" cy="16" r="9"/><line x1="16" y1="16" x2="19" y2="11"/><line x1="16" y1="10" x2="16" y2="12"/></svg></div>
+        <h3>Apometre</h3>
+        <p>Pentru apă rece și caldă</p>
+      </div>
+      <div class="cat-item">
+        <div class="cat-hex"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="16" cy="17" r="8"/><line x1="16" y1="17" x2="19" y2="13"/><rect x="14" y="4" width="4" height="3"/></svg></div>
+        <h3>Regulatoare</h3>
+        <p>Pentru presiune de gaz și apă</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="catalog" id="catalog">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="tag">VANE, ROBINETE ȘI SUPAPE PVC</div>
+      <h2>Prețuri de referință</h2>
+      <p>Prețurile de mai jos sunt exemple de completat — actualizează-le cu datele curente.</p>
+    </div>
+    <div class="prod-grid">
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/vana-fluture.jpg" alt="Vană fluture"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/vana-fluture.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Vană fluture, PVC</h3>
+          <div class="meta">PN 16</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>063</th><th>075</th><th>090</th><th>0110</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/robinet-bila-flansa.jpg" alt="Robinet bilă pe flanșă"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-bila-flansa.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Robinet bilă, pe flanșă</h3>
+          <div class="meta">PN 16 · Pimtas — Turcia</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>015</th><th>025</th><th>032</th><th>040</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/robinet-bila-mama.jpg" alt="Robinet bilă mufă"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-bila-mama.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Robinet bilă, pe mufă M-M</h3>
+          <div class="meta">PN 16 · Pimtas — Turcia</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>015</th><th>025</th><th>040</th><th>050</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/robinet-bila-mt.jpg" alt="Robinet bilă M-T"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-bila-mt.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Robinet bilă, pe mufă M-T</h3>
+          <div class="meta">PN 16 · Pimtas — Turcia</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>015</th><th>025</th><th>032</th><th>040</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/robinet-compresie.jpg" alt="Robinet bilă compresie"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-compresie.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Robinet bilă, compresie / mamă</h3>
+          <div class="meta">PN 16 · Pimtas — Turcia</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>050</th><th>063</th><th>075</th><th>090</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-photo">
+          <img class="imgslot" src="images/robinet-compresie-flansa.jpg" alt="Robinet bilă compresie flanșă"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'imgslot-empty',innerText:'poza: images/robinet-compresie-flansa.jpg'}))">
+        </div>
+        <div class="prod-body">
+          <h3>Robinet bilă, compresie / flanșă</h3>
+          <div class="meta">PN 16 · Pimtas — Turcia</div>
+          <span class="price-badge">DE LA XXX LEI/ML</span>
+          <table class="spec">
+            <tr><th>Dn</th><th>050</th><th>063</th><th>075</th><th>090</th></tr>
+            <tr><td>Preț inc. TVA</td><td>XXX</td><td>XXX</td><td>XXX</td><td>XXX</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="contact-banner" id="contact">
+  <div class="wrap cb-inner">
+    <div class="cb-phone">
+      <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5c0 8 7 15 15 15l2-4-6-2-2 2c-2-1-4-3-5-5l2-2-2-6z"/></svg></div>
+      <div><div class="lbl">Sună acum</div><div class="num">+373 067 15 10 80</div></div>
+    </div>
+    <div class="cb-details">
+      <div class="cb-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+        <div><div class="lbl">Adresă</div><div class="val">Șoseaua Munceşti 328</div></div>
+      </div>
+      <div class="cb-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 6l9 7 9-7"/></svg>
+        <div><div class="lbl">Email</div><div class="val">info@tehnotitan.md</div></div>
+      </div>
+      <div class="cb-detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg>
+        <div><div class="lbl">Website</div><div class="val">www.tehnotitan.md</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="copyright">© 2026 Tehnotitan SRL</div>
+    <div class="foot-links">
+      <a href="#categorii">Produse</a>
+      <a href="#catalog">Prețuri</a>
+      <a href="#contact">Contacte</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
